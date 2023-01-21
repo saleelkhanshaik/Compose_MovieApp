@@ -40,8 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.ui.theme.MovieAppTheme
 
+private val TAG : String = "MovieScreengit"
 class MainActivity : ComponentActivity() {
-    private val TAG : String = "MovieScreengit"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -98,7 +98,8 @@ fun MovieRow(movieDetails: String,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp,
+        pressedElevation = 4.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -139,7 +140,7 @@ fun MainContent(
             items(items = movieList) {
                 MovieRow(it){
                     movieDetails ->
-                    Log.d("", "MainContent: $movieDetails")
+                    Log.d(TAG, "MainContent: $movieDetails")
                 }
             }
         }
