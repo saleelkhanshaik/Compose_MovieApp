@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.navigation.MovieNavigation
 import com.example.movieapp.ui.theme.MovieAppTheme
 
 private val TAG : String = "MovieScreengit"
@@ -46,111 +47,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                MainContent()
+                MovieNavigation()
             }
-        }
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyApp(content: @Composable () -> Unit) {
-    MovieAppTheme {
-        val context = LocalContext.current
-        Scaffold(topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(text = "Movie APP")
-                },
-                modifier = Modifier,
-                navigationIcon = {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "TopBarIcon")
-//                    Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "TopBarIcon")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    titleContentColor = MaterialTheme.colorScheme.background,
-                    navigationIconContentColor = MaterialTheme.colorScheme.error
-                )
-            )
-        }) { it ->
-            Column(modifier = Modifier.padding(it)) {
-                content()
-            }
-
         }
     }
 }
 
 @Composable
-fun MovieRow(movieDetails: String,
-             itemClick :(String) -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .clickable {
-                itemClick(movieDetails)
-            },
-        shape = MaterialTheme.shapes.small,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp,
-        pressedElevation = 4.dp),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(modifier = Modifier
-                .padding(12.dp)
-                .size(100.dp),
-                shape = RectangleShape,
-                color = MaterialTheme.colorScheme.onPrimary,
-                shadowElevation = 4.dp,
-                tonalElevation = 4.dp,
-            ) {
-                Icon(imageVector = Icons.Default.AccountBox,
-                    contentDescription = "Movie Icon")
-            }
-            Text(text = movieDetails)
-        }
-
+fun MyApp(content: @Composable () -> Unit) {
+    MovieAppTheme {
+        content()
     }
 }
 
-@Composable
-fun MainContent(
-    movieList: List<String> = listOf<String>(
-       "Kiadhi 150",
-        "Syera",
-        "God Father",
-        "Waltheru verraya",
-        "Muta mestri",
-        "Annaya",
-        "Kadhi",
-        "Suprime"
-    )
-) {
-    Column(modifier = Modifier.padding(12.dp)) {
-        LazyColumn {
-            items(items = movieList) {
-                MovieRow(it){
-                    movieDetails ->
-                    Log.d(TAG, "MainContent: $movieDetails")
-                }
-            }
-        }
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApp {
-        MainContent()
+
     }
 }
