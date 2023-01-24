@@ -30,7 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.movieapp.model.Movie
+import com.example.movieapp.model.getMovies
 import com.example.movieapp.navigation.MovieScreen
+import com.example.movieapp.widget.MovieRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,70 +57,18 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
-@Composable
-fun MovieRow(
-    movieDetails: String,
-    itemClick: (String) -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .clickable {
-                itemClick(movieDetails)
-            },
-        shape = MaterialTheme.shapes.small,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp,
-            pressedElevation = 4.dp
-        ),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(100.dp),
-                shape = RectangleShape,
-                color = MaterialTheme.colorScheme.onPrimary,
-                shadowElevation = 4.dp,
-                tonalElevation = 4.dp,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AccountBox,
-                    contentDescription = "Movie Icon"
-                )
-            }
-            Text(text = movieDetails)
-        }
 
-    }
-}
 
 @Composable
 fun MainContent(
     navController: NavController,
-    movieList: List<String> = listOf<String>(
-        "Kiadhi 150",
-        "Syera",
-        "God Father",
-        "Waltheru verraya",
-        "Muta mestri",
-        "Annaya",
-        "Kadhi",
-        "Suprime"
-    )
+    movieList: List<Movie> = getMovies()
 ) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = movieList) {
                 MovieRow(it) { movieDetails ->
-                    navController.navigate(route = MovieScreen.DetailScreen.name+"/$movieDetails",
+                    navController.navigate(route = MovieScreen.DetailScreen.name+"/${movieDetails.id}",
                     )
                 }
             }
